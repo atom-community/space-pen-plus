@@ -4,9 +4,14 @@
   "description": "Write markup on the final frontier",
   "main": "./lib/space-pen.js",
   "scripts": {
-    "prepublish": "node_modules/.bin/grunt prepublish",
-    "test": "node_modules/.bin/grunt test",
-    "start": "node_modules/.bin/grunt start"
+    "test-build": "coffee -c -M -o spec spec",
+    "test": "grunt test",
+    "start": "grunt start",
+    "clean": "shx rm -rf lib && shx rm -rf dist && shx rm -rf es &&  shx rm -f spec/*.js && rm -f api.json",
+    "debug": "npm run clean && shx cp -r src lib && coffee -c -M -o lib src && shx rm -r lib/*.coffee",
+    "dev": "npm run clean && env NODE_ENV=development rollup -c -w",
+    "build": "npm run clean && env NODE_ENV=production rollup -c && shx cp -r lib dist",
+    "prepare": "npm run build"
   },
   "licenses": [
     {
@@ -22,6 +27,13 @@
     "url": "https://github.com/atom/space-pen/issues"
   },
   "devDependencies": {
+    "coffeescript": "1.12.7",
+    "rollup": "^2.11.2",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-commonjs": "^12.0.0",
+    "rollup-plugin-terser": "^6.1.0",
+    "rollup-plugin-coffee-script": "^2.0.0",
+    "shx": "^0.3.2",
     "express": "~3.4.0",
     "coffee-script": "~1.6.3",
     "grunt-contrib-coffee": "~0.7.0",
