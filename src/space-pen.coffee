@@ -1,10 +1,8 @@
-if typeof require is 'function'
-  _ = require 'underscore-plus'
-  $ = jQuery = require 'jquery'
-  Grim = require 'grim'
-else
-  {_, jQuery} = window
-  $ = jQuery
+import _ from 'underscore-plus'
+import jQuery from 'jquery'
+
+export $ = jQuery
+module.exports.jQuery = jQuery
 
 Tags =
   'a abbr address article aside audio b bdi bdo blockquote body button canvas
@@ -72,7 +70,7 @@ registerElement = (tagName) ->
 #   craft.find('h1').text() # 'Spacecraft'
 #   craft.appendTo(document.body) # View is now a child of the <body> tag
 # ```
-class View extends jQuery
+export class View extends jQuery
   @builderStack: null
 
   Tags.forEach (tagName) ->
@@ -478,6 +476,7 @@ $.fn.command = (eventName, handler) ->
     Call `.dispose()` on your `CompositeDisposable` in this view's `::detached` hook.
   """
 
+import Grim from 'grim'
 
 JQueryEventAdd = jQuery.event.add
 jQuery.event.add = (elem, types, handler, data, selector) ->
@@ -518,10 +517,8 @@ $.fn.destroyTooltip = $.fn.hideTooltip = ->
   """
 
 # Exports
+export $$ = (fn) ->
+  return View.render.call(View, fn)
 
-exports = exports ? this
-exports.View = View
-exports.jQuery = jQuery
-exports.$ = $
-exports.$$ = (fn) -> View.render.call(View, fn)
-exports.$$$ = (fn) -> View.buildHtml.call(View, fn)[0]
+export $$$ = (fn) ->
+  return View.buildHtml.call(View, fn)[0]
