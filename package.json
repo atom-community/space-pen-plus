@@ -3,6 +3,14 @@
   "version": "5.1.2",
   "description": "Write markup on the final frontier",
   "main": "./lib/space-pen.js",
+  "browser": "./dist/space-pen.js",
+  "es": "./es/space-pen.js",
+  "files": [
+    "src/**",
+    "lib/**",
+    "es/**",
+    "dist/**"
+  ],
   "scripts": {
     "test-build": "coffee -c -M -o spec spec",
     "test": "grunt test",
