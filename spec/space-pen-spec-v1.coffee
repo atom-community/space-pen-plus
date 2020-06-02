@@ -1,3 +1,6 @@
+{ $, $$, $$$, jQuery, View } = require "../lib/space-pen.js"
+_ = require 'underscore-plus'
+
 describe "View", ->
   view = null
 
