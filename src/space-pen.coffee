@@ -1,4 +1,3 @@
-import _ from 'underscore-plus'
 import jQuery from 'jquery'
 
 export $ = jQuery
@@ -125,12 +124,6 @@ export class View extends jQuery
   element: null
 
   constructor: (args...) ->
-    if typeof @afterAttach is 'function'
-      throw new Error("The ::afterAttach hook has been replaced by ::attached. See https://github.com/atom/space-pen#attacheddetached-hooks for details.")
-
-    if typeof @beforeRemove is 'function'
-      throw new Error("The ::beforeRemove hook has been replaced by ::detached. See https://github.com/atom/space-pen#attacheddetached-hooks for details.")
-
     if @element?
       jQuery.fn.init.call(this, @element)
     else
@@ -283,7 +276,6 @@ $.fn.view = ->
   if element = @[0]
     if element.__spacePenView? and not element.__allowViewAccess
       viewConstructorName = element.__spacePenView.constructor.name
-      Grim?.deprecate("Accessing `#{viewConstructorName}` via `$::view()` is deprecated. Use the raw DOM node or underlying model object instead.")
     element.spacePenView
 
 $.fn.views = -> @toArray().map (elt) ->
@@ -420,73 +412,15 @@ $.Event.prototype.currentTargetView = -> $(@currentTarget).containingView()
 $.Event.prototype.targetView = -> $(@target).containingView()
 
 # Deprecations
-
-View::subscribe = ->
-  message = "The `::subscribe` method is no longer available on SpacePen views.\n\n"
-
-  if arguments.length is 1
-    message += """
-      To store multiple subscription objects for later disposal, add them to a
-      `CompositeDisposable` instance (https://atom.io/docs/api/v0.150.0/CompositeDisposable)
-      and call `.dispose()` on it explicitly in this view's `::detached` hook.
-    """
-  else
-    if arguments[0]?.jquery
-      message += """
-        To subscribe to events on a jQuery object, use the traditional `::on` and
-        `::off methods`.
-      """
-    else
-      message += """
-        To subscribe to events on an Atom object, use an explicit event-subscription
-        method (starting with ::onDid* or ::onWill*).
-
-        To collect multiple subscription objects for later disposal, add them to a
-        `CompositeDisposable` instance:
-        https://atom.io/docs/api/v0.150.0/CompositeDisposable
-
-        Call `.dispose()` on your `CompositeDisposable` in this view's `::detached` hook.
-      """
-
-  throw new Error(message)
-
-View::subscribeToCommand = ->
-  throw new Error """
-    The `::subscribeToCommand` method is no longer available on SpacePen views."
-
-    Please subscribe to commands via `atom.commands.add`:
-    https://atom.io/docs/api/latest/CommandRegistry#instance-add
-
-    Collect the returned subscription objects in a CompositeDisposable:
-    https://atom.io/docs/api/latest/CompositeDisposable
-
-    Call `.dispose()` on your `CompositeDisposable` in this view's `::detached` hook.
-  """
-
-$.fn.command = (eventName, handler) ->
-  throw new Error """
-    The `::command` method is no longer available on SpacePen views."
-
-    Please subscribe to commands via `atom.commands.add`:
-    https://atom.io/docs/api/latest/CommandRegistry#instance-add
-
-    Collect the returned subscription objects in a CompositeDisposable:
-    https://atom.io/docs/api/latest/CompositeDisposable
-
-    Call `.dispose()` on your `CompositeDisposable` in this view's `::detached` hook.
-  """
-
-import Grim from 'grim'
-
 JQueryEventAdd = jQuery.event.add
 jQuery.event.add = (elem, types, handler, data, selector) ->
   if /\:/.test(types)
-    Grim?.deprecate """
+    console.warn("""
       Are you trying to listen for the '#{types}' Atom command with `jQuery::on`?
       `jQuery::trigger` can no longer be used to listen for Atom commands. Please
       use `atom.commands.add` instead. See the docs at
       https://atom.io/docs/api/latest/CommandRegistry#instance-add for details.
-    """
+    """)
   JQueryEventAdd.call(this, elem, types, handler, data, selector)
 
 
@@ -494,27 +428,15 @@ unless $.fn.originalTrigger?
   $.fn.originalTrigger = $.fn.trigger
   $.fn.trigger = (eventName, data) ->
     if typeof eventName is 'string' and /\:/.test(eventName) and eventName not in ['cursor:moved', 'selection:changed', 'editor:display-updated']
-      Grim?.deprecate """
+      console.warn("""
         Are you trying to dispatch the '#{eventName}' Atom command with `jQuery::trigger`?
         `jQuery::trigger` can no longer emit Atom commands as it will not correctly route
         the command to its handlers. Please use `atom.commands.dispatch` instead.
         See the docs at https://atom.io/docs/api/latest/CommandRegistry#instance-dispatch
         for details.
-      """
+      """)
     @originalTrigger(eventName, data)
 
-$.fn.setTooltip = ->
-  throw new Error """
-    setTooltip is no longer available. Please use `atom.tooltips.add` instead.
-    See the docs at https://atom.io/docs/api/latest/TooltipManager#instance-add
-  """
-
-$.fn.destroyTooltip = $.fn.hideTooltip = ->
-  throw new Error """
-    destroyTooltip is no longer available. Please dispose the object returned
-    from  `atom.tooltips.add` instead.
-    See the docs at https://atom.io/docs/api/latest/TooltipManager#instance-add
-  """
 
 # Exports
 export $$ = (fn) ->
