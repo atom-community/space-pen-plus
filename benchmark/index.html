@@ -1,22 +1,25 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
-  <title>Space Pen Benchmark</title>
+  <meta charset="utf-8">
+  <title>Space Pen Benchmark using Jasmine Spec Runner v3.5.0</title>
 
-  <!-- coffeescript -->
-  <script type="text/javascript" src="../vendor/coffee-script.js"></script>
+  <!-- Jasmine 3 cdn https://cdnjs.com/libraries/jasmine -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.5.0/jasmine.min.css" integrity="sha256-US46s8iE//XjSFdoo70XyCnsGALF7ggrHbPCHqvoRn4=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.5.0/jasmine.min.js" integrity="sha256-1VPQpwA20pHg5JjsGi25JmBQpelVG1x8xSoUP5z4Uxs=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.5.0/jasmine-html.min.js" integrity="sha256-MA/hJEAa59GZN7vr2yeB780ZY0aP5N/bvN1IzEyli6I=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.5.0/boot.min.js" integrity="sha256-50SUpM8uWrEsGOfSXDxZ+KqiIeOxUlwhiQN316wmwOg=" crossorigin="anonymous"></script>
+  <script>var exports = {};</script>
 
-  <!-- dependencies -->
-  <script type="text/javascript" src="../vendor/jquery.js"></script>
-  <script type="text/javascript" src="../spec/spec-helper.js"></script>
+  <!-- include source files here... -->
+  <script src="../dist/space-pen.js"></script>
 
-  <!-- implementation -->
-  <script type="text/coffeescript" src="../src/space-pen.coffee"></script>
+  <!-- include spec files here... -->
+  <script type="module" src="benchmark.js"></script>
 
-  <script type="text/coffeescript" src="./benchmark.coffee"></script>
+
 </head>
 
 <body>
-  <div id="container"></div>
 </body>
 </html>
