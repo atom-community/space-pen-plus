@@ -1,6 +1,7 @@
-# SpacePen [![Build Status](https://travis-ci.org/atom/space-pen.svg?branch=master)](https://travis-ci.org/atom/space-pen)
+# SpacePen
 
-:rotating_light: **This library is no longer maintained** :rotating_light:
+![CI](https://github.com/aminya/space-pen/workflows/CI/badge.svg)
+:rotating_light: **This is a fork of original space-pen** :rotating_light:
 
 **Version 5.x of SpacePen is intended to be included as a direct dependency of 1.0-compatible Atom packages. If you're looking for SpacePen 3.x, used in [Atom Core](https://github.com/atom/atom), check out the [3.x branch](https://github.com/atom/space-pen/tree/3.x).**
 
