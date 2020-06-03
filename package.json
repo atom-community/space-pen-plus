@@ -1,7 +1,7 @@
 {
-  "name": "space-pen",
-  "version": "5.1.2",
-  "description": "Write markup on the final frontier",
+  "name": "space-pen-plus",
+  "version": "5.2.0",
+  "description": "modern spece-pen",
   "main": "./lib/space-pen.js",
   "browser": "./dist/space-pen.js",
   "es": "./es/space-pen.js",
@@ -25,15 +25,15 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/atom/space-pen/raw/master/LICENSE"
+      "url": "http://github.com/aminya/space-pen/raw/master/LICENSE"
     }
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/atom/space-pen.git"
+    "url": "https://github.com/aminya/space-pen.git"
   },
   "bugs": {
-    "url": "https://github.com/atom/space-pen/issues"
+    "url": "https://github.com/aminya/space-pen/issues"
   },
   "devDependencies": {
     "coffeescript": "1.12.7",
