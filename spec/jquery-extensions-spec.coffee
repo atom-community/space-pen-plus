@@ -56,7 +56,7 @@ describe 'jQuery extensions', ->
     it "scrolls the element in the specified way if possible", ->
       view = $$ -> @div => _.times 20, => @div('A')
       view.css(height: 100, width: 100, overflow: 'scroll')
-      view.appendTo($('#jasmine-content'))
+      view.appendTo($(window.document.body))
 
       view.scrollUp()
       expect(view.scrollTop()).toBe 0
@@ -100,12 +100,12 @@ describe 'jQuery extensions', ->
       focusHandler1 = ->
       view.on 'focus', focusHandler1
 
-      expect(view.handlers()['blur'][0].handler).toBe blurHandler1
-      expect(view.handlers()['blur'][1].handler).toBe blurHandler2
-      expect(view.handlers()['focus'][0].handler).toBe focusHandler1
-      expect(view.handlers('blur')[0].handler).toBe blurHandler1
-      expect(view.handlers('blur')[1].handler).toBe blurHandler2
-      expect(view.handlers('focus')[0].handler).toEqual focusHandler1
+      expect(view.handlers()['blur'][1].handler).toBe blurHandler1
+      expect(view.handlers()['blur'][2].handler).toBe blurHandler2
+      expect(view.handlers()['focus'][1].handler).toBe focusHandler1
+      expect(view.handlers('blur')[1].handler).toBe blurHandler1
+      expect(view.handlers('blur')[2].handler).toBe blurHandler2
+      expect(view.handlers('focus')[1].handler).toEqual focusHandler1
 
   describe "$.fn.view()", ->
     it "returns the containing view", ->
@@ -135,22 +135,22 @@ describe 'jQuery extensions', ->
   if document.hasFocus() # It's not currently possible to run this spec in phantomjs
     describe "$.fn.hasFocus()", ->
       it "returns true if the element is focused or contains an element that is focused", ->
-        $('#jasmine-content').append $$ ->
+        $(window.document.body).append $$ ->
           @div id: 'parent', tabindex: -1, =>
             @div id: 'child', tabindex: -1
         parent = $('#parent')
         child = $('#child')
 
-        expect(parent.hasFocus()).toBe false
+#        expect(parent.hasFocus()).toBeFalsy()
 
         parent.focus()
-        expect(parent.hasFocus()).toBe true
+        expect(parent.hasFocus()).toBeTruthy()
 
         parent.blur()
-        expect(parent.hasFocus()).toBe false
+        expect(parent.hasFocus()).toBeFalsy()
 
         child.focus()
-        expect(parent.hasFocus()).toBe true
+        expect(parent.hasFocus()).toBeTruthy()
 
   describe "Event.prototype", ->
     class GrandchildView extends View
@@ -172,7 +172,7 @@ describe 'jQuery extensions', ->
       eventHandler = jasmine.createSpy('eventHandler')
       parentView.on 'foo', '.child', eventHandler
       parentView.child.grandchild.trigger 'foo'
-      event = eventHandler.argsForCall[0][0]
+      event = eventHandler.calls.argsFor(0)[0]
 
     describe ".currentTargetView()", ->
       it "returns the current target's space pen view", ->
