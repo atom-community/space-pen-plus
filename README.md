@@ -1,9 +1,13 @@
 # SpacePen
 
 ![CI](https://github.com/aminya/space-pen/workflows/CI/badge.svg)
-:rotating_light: **This is a fork of original space-pen** :rotating_light:
 
-**Version 5.x of SpacePen is intended to be included as a direct dependency of 1.0-compatible Atom packages. If you're looking for SpacePen 3.x, used in [Atom Core](https://github.com/atom/atom), check out the [3.x branch](https://github.com/atom/space-pen/tree/3.x).**
+**This is a fork of the original space-pen which enhances space-pen performance greatly. It also solves the security vulnerabilities of the old space-pen. Now space-pen uses latest version of jQuery.**
+
+## Install
+```
+npm install -D space-pen-plus
+```
 
 ## Write markup on the final frontier
 
@@ -251,3 +255,6 @@ npm start
 * Open http://localhost:1337 to run the specs
 * Open http://localhost:1337/benchmark to run the benchmarks
 * Open http://localhost:1337/examples to browse the examples
+
+## History
+**Version 5.x of SpacePen was intended to be included as a direct dependency of 1.0-compatible Atom packages. If you're looking for SpacePen 3.x, used in [Atom Core](https://github.com/atom/atom), check out the [3.x branch](https://github.com/atom/space-pen/tree/3.x).**
