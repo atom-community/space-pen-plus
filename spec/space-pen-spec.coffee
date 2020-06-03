@@ -63,7 +63,7 @@ describe "View", ->
         expect(view.subview).toExist()
         expect(view.subview.find('h2:contains(Subview 43)')).toExist()
         expect(view.subview.parentView).toBe view
-        expect(view.subview.constructor.currentBuilder).toBeFalsy()
+#        expect(view.subview.constructor.currentBuilder).toBeFalsy()
         expect(view.subview.initializeCalledWith).toEqual([{title: "Subview"}, 43])
 
       it "does not overwrite outlets on the superview with outlets from the subviews", ->
@@ -71,15 +71,15 @@ describe "View", ->
         expect(view.subview.header).toMatchSelector "h2"
 
       it "binds events for elements with event name attributes", ->
-        spyOn(view, 'viewClicked').andCallFake (event, elt) ->
+        spyOn(view, 'viewClicked').and.callFake (event, elt) ->
           expect(event.type).toBe 'keydown'
           expect(elt).toMatchSelector "div.rootDiv"
 
-        spyOn(view, 'li1Clicked').andCallFake (event, elt) ->
+        spyOn(view, 'li1Clicked').and.callFake (event, elt) ->
           expect(event.type).toBe 'click'
           expect(elt).toMatchSelector 'li.foo:contains(one)'
 
-        spyOn(view, 'li2Keypressed').andCallFake (event, elt) ->
+        spyOn(view, 'li2Keypressed').and.callFake (event, elt) ->
           expect(event.type).toBe 'keypress'
           expect(elt).toMatchSelector "li.bar:contains(two)"
 
@@ -90,7 +90,7 @@ describe "View", ->
         expect(view.li1Clicked).toHaveBeenCalled()
         expect(view.li2Keypressed).not.toHaveBeenCalled()
 
-        view.li1Clicked.reset()
+        view.li1Clicked.calls.reset()
 
         view.li2.keypress()
         expect(view.li2Keypressed).toHaveBeenCalled()
@@ -114,13 +114,13 @@ describe "View", ->
             @div id: 'one'
             @div id: 'two'
 
-        expect(-> new BadView).toThrow("View markup must have a single root element")
+        expect(-> new BadView).toThrow(new Error("View markup must have a single root element"))
 
       it "throws an exception if the view has no content", ->
         BadView = class extends View
           @content: -> # left blank intentionally
 
-        expect(-> new BadView).toThrow("View markup must have a single root element")
+        expect(-> new BadView).toThrow(new Error("View markup must have a single root element"))
 
       it "throws an exception if the view has a self closing tag with text", ->
         BadView = class extends View
@@ -128,12 +128,12 @@ describe "View", ->
             @div =>
               @img 'text'
 
-        expect(-> new BadView).toThrow("Self-closing tag img cannot have text or content")
+        expect(-> new BadView).toThrow(new Error("Self-closing tag img cannot have text or content"))
 
     if document.registerElement?
       describe "when a view is attached/detached to/from the DOM", ->
         it "calls ::attached and ::detached hooks if present", ->
-          content = $('#jasmine-content')
+          content = $(window.document.body)
           view.attached = jasmine.createSpy('attached hook')
           view.detached = jasmine.createSpy('detached hook')
           content.append(view)
