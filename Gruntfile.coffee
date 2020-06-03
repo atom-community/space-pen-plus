@@ -20,22 +20,8 @@ module.exports = (grunt) ->
           stderr: true
           failOnError: true
 
-      test_build:
-        command: 'npm run test-build'
-        options:
-          stdout: true
-          stderr: true
-          failOnError: true
-
       test:
         command: 'node spec/headless-spec-runner.js'
-        options:
-          stdout: true
-          stderr: true
-          failOnError: true
-
-      browserify:
-        command: 'browserify -t coffeeify spec/spec-helper.coffee -o spec/spec-helper.js'
         options:
           stdout: true
           stderr: true
@@ -69,8 +55,8 @@ module.exports = (grunt) ->
 
   grunt.registerTask('clean', ['shell:clean'])
   grunt.registerTask('lint', ['coffeelint'])
-  grunt.registerTask('test', ['default', 'shell:test_build', 'shell:test'])
-  grunt.registerTask('start', ['default', 'shell:browserify', 'connect'])
+  grunt.registerTask('test', ['default', 'shell:test'])
+  grunt.registerTask('start', ['default', 'connect'])
   grunt.registerTask('bower', ['default'])
   grunt.registerTask('prepublish', ['clean', 'shell:rollup', 'lint', 'shell:update-atomdoc', 'atomdoc'])
-  grunt.registerTask('default', ['shell:rollup', 'lint'])
+  grunt.registerTask('default', ['shell:rollup'])

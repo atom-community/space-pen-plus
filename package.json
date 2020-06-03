@@ -12,11 +12,9 @@
     "dist/**"
   ],
   "scripts": {
-    "test-build": "coffee -c -M -o spec spec",
-    "test": "npm run test-build && atom --test spec",
     "start": "grunt start",
-    "clean": "shx rm -rf lib && shx rm -rf dist && shx rm -rf es &&  shx rm -f spec/*.js && rm -f api.json",
-    "debug": "npm run clean && shx cp -r src lib && coffee -c -M -o lib src && shx rm -r lib/*.coffee",
+    "test": "coffee -c -M -o spec spec && atom --test spec",
+    "clean": "shx rm -rf lib dist es spec/*.js spec/*.js.map api.json",
     "dev": "npm run clean && env NODE_ENV=development rollup -c -w",
     "build": "npm run clean && env NODE_ENV=production rollup -c && shx cp -r lib dist",
     "prepare": "npm run build"
@@ -42,6 +40,7 @@
     "@rollup/plugin-commonjs": "^12.0.0",
     "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-coffee-script": "^2.0.0",
+    "rollup-plugin-execute": "^1.1.1",
     "shx": "^0.3.2",
     "atom-jasmine3-test-runner": "4.4.7",
     "jasmine": "^3.5.0",
