@@ -1,7 +1,7 @@
 import jQuery from 'jquery'
+export {default as jQuery} from 'jquery'
 
 export $ = jQuery
-exports.jQuery = jQuery
 
 Tags =
   'a abbr address article aside audio b bdi bdo blockquote body button canvas
