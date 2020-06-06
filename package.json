@@ -1,6 +1,6 @@
 {
   "name": "space-pen-plus",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "description": "modern spece-pen",
   "main": "./lib/space-pen.js",
   "browser": "./dist/space-pen.js",
