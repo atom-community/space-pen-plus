@@ -2,7 +2,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import coffeescript from 'rollup-plugin-coffee-script';
 import {terser} from 'rollup-plugin-terser';
-import execute from 'rollup-plugin-execute';
 
 let plugins = [
     coffeescript(),
@@ -29,6 +28,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export default [
+    // main
     {
         input: 'src/space-pen.coffee',
         output: [
@@ -40,28 +40,28 @@ export default [
         ],
         plugins: plugins,
     },
+    // es
     {
         input: 'src/space-pen.coffee',
         output: [
             {
-                file: "dist/space-pen.js",
-                format: 'cjs',
+                file: "lib/space-pen.es.js",
+                format: 'es',
                 sourcemap: true,
             },
         ],
-        plugins: [...plugins, execute('browserify ./dist/space-pen.js -o ./dist/space-pen.js')],
+        plugins: plugins,
     },
+    // browser spec
     {
         input: 'spec/spec-rollup.coffee',
         output: [
             {
-                file: "spec/spec.js",
+                file: "spec/browser_spec.js",
                 format: 'cjs',
                 sourcemap: true,
             },
         ],
-        plugins: [...plugins, execute([
-            'browserify ./spec/spec.js -o ./spec/spec.js'
-        ])],
+        plugins: plugins
     },
 ];

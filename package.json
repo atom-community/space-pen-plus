@@ -3,11 +3,11 @@
   "version": "6.0.2",
   "description": "modern spece-pen",
   "main": "./lib/space-pen.js",
+  "es": "lib/space-pen.es.js",
   "browser": "./dist/space-pen.js",
   "files": [
     "src/**",
     "lib/**",
-    "es/**",
     "dist/**"
   ],
   "scripts": {
@@ -15,8 +15,9 @@
     "test": "coffee -c -M -o spec spec && atom --test spec",
     "clean": "shx rm -rf lib dist es spec/*.js spec/*.js.map api.json",
     "dev": "npm run clean && env NODE_ENV=development rollup -c -w",
-    "build": "npm run clean && env NODE_ENV=production rollup -c && shx cp -r lib dist",
-    "prepare": "npm run build"
+    "build": "npm run clean && env NODE_ENV=production rollup -c",
+    "browserify": "shx mkdir -p dist && shx cp -r lib/space-pen.js dist && browserify ./dist/space-pen.js -o ./dist/space-pen.js && browserify ./spec/browser_spec.js -o ./spec/browser_spec.js",
+    "prepare": "npm run build && npm run browserify"
   },
   "atomTestRunner": "./runner",
   "licenses": [
@@ -39,7 +40,6 @@
     "@rollup/plugin-commonjs": "^12.0.0",
     "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-coffee-script": "^2.0.0",
-    "rollup-plugin-execute": "^1.1.1",
     "shx": "^0.3.2",
     "atom-jasmine3-test-runner": "4.4.7",
     "jasmine": "^3.5.0",
