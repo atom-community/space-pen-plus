@@ -37,6 +37,9 @@ describe "View", ->
         li1Clicked: ->,
         li2Keypressed: ->
         viewClicked: ->
+        # for testing attach and detach callbacks
+        attached: () -> console.log('\n attached hook \n')
+        detached: () -> console.log('\n detached hook \n')
 
       view = new TestView({title: "Zebra"}, 42)
 
@@ -130,17 +133,16 @@ describe "View", ->
 
         expect(-> new BadView).toThrow(new Error("Self-closing tag img cannot have text or content"))
 
-    if document.registerElement?
-      describe "when a view is attached/detached to/from the DOM", ->
-        it "calls ::attached and ::detached hooks if present", ->
-          content = $(window.document.body)
-          view.attached = jasmine.createSpy('attached hook')
-          view.detached = jasmine.createSpy('detached hook')
-          content.append(view)
-          expect(view.attached).toHaveBeenCalled()
+    describe "when a view is attached/detached to/from the DOM", ->
+      it "calls ::attached and ::detached hooks if present", ->
+        content = $(window.document.body)
+        spyOn(view, 'attached').and.callThrough()
+        spyOn(view, 'detached').and.callThrough()
+        content.append(view)
+        expect(view.attached).toHaveBeenCalled()
 
-          view.detach()
-          expect(view.detached).toHaveBeenCalled()
+        view.detach()
+        expect(view.detached).toHaveBeenCalled()
 
     describe "when the view constructs a new jQuery wrapper", ->
       it "constructs instances of jQuery rather than the view class", ->
