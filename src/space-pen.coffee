@@ -34,14 +34,19 @@ CustomElementPrototype = Object.create(HTMLElement::)
 CustomElementPrototype.attachedCallback = -> @attached?()
 CustomElementPrototype.detachedCallback = -> @detached?()
 
+class SpacePenCustomElement extends HTMLElement
+  attachedCallback : -> @attached?()
+  detachedCallback : -> @detached?()
+
 # Register globally so multiple versions of SpacePen still share the same set
 # of custom elements. This prevents element re-definition. If the simple element
 # API needs to change in the future we'll need a different naming scheme anyway.
 window.__spacePenCustomElements ?= {}
 registerElement = (tagName) ->
   customTagName = "space-pen-#{tagName}"
-  window.__spacePenCustomElements[customTagName] ?=
-    document.registerElement?(customTagName, prototype: Object.create(CustomElementPrototype), extends: tagName)
+  if (!customElements.get(customTagName))
+    window.customElements.define(customTagName, SpacePenCustomElement, { extends: tagName })
+    window.__spacePenCustomElements[customTagName] = customElements.get(customTagName)
   customTagName
 
 # Public: View class that extends the jQuery prototype.
